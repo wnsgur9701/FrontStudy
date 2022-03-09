@@ -11,10 +11,42 @@
 <!--    - input tag에 배경화면에 관한 javascript함수를 적용시킨다-->
 <!--    - onkeyup(빨간색) : 글자를 입력할 때 상자안에 붉은색으로 바뀐다.-->
 <!--    - onkeydown(초록색) : 글자를 입력하기 전에 상자안에 초록색으로 되어 있다. 글자를 입력하고 난 후에 다시 초록색으로 돌아온다.-->
-  <input type = "text" onKeyup="inputYMDNumber(this)" value="" placeholder="YYYY-MM-DD"
-         style="text-align:center"/>
+<!-- input tag의 value 값은 초기갑을 나타낸다-->
+  <input type = "text" onKeyup="inputYMDNumber(this)" value="" placeholder="YYYY-MM-DD" style="text-align:center"/>
+  <input type="text" onKeyup="inputPhoneNumber(this)" value="" placeholder="000-0000-0000" style="text-align: center"/>
 </body>
 <script type="text/javascript">
+
+  function inputPhoneNumber(obj) {
+    if (event.keyCode != 8) {
+      // 하이픈하고 숫자만 있을 때 밑에 함수가 적용되도록 한다. 만약 하이픈하고 숫자가 아닐시에는 alert 함수가 뜨도록 한다.
+      if (obj.value.replace(/[0-9 \-]/g, "").length == 0) {
+        // 숫자만 뽑아내기
+        let number = obj.value.replace(/[^0-9]/g, "");
+        let phoneNumber = "";
+
+        if (number.length < 3) {
+          return number;
+        } else if (number.length < 7) {
+          phoneNumber += number.substr(0,3);
+          phoneNumber += "-";
+          phoneNumber += number.substr(3);
+        } else {
+          phoneNumber += number.substr(0, 3);
+          phoneNumber += "-";
+          phoneNumber += number.substr(3, 4);
+          phoneNumber += "-";
+          phoneNumber += number.substr(7);
+        }
+        obj.value = phoneNumber;
+      } else {
+        obj.value = obj.value.replace(/[^0-9 ^\-]/g, "");
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
   function inputYMDNumber(obj) {
 
