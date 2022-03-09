@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!-- onKeyup 속성 : 입력을 할 때 javascript 함수가 작성된다.-->
+<!-- onKeydown 속성 : 입력하기 전에 속성을 적용한다.-->
+<!-- ex> 색 속성-->
+<!--    - input tag에 배경화면에 관한 javascript함수를 적용시킨다-->
+<!--    - onkeyup(빨간색) : 글자를 입력할 때 상자안에 붉은색으로 바뀐다.-->
+<!--    - onkeydown(초록색) : 글자를 입력하기 전에 상자안에 초록색으로 되어 있다. 글자를 입력하고 난 후에 다시 초록색으로 돌아온다.-->
+  <input type = "text" onKeyup="inputYMDNumber(this)" value="" placeholder="YYYY-MM-DD"
+         style="text-align:center"/>
+</body>
+<script type="text/javascript">
+
+  function inputYMDNumber(obj) {
+
+    // @see DELETE 키버튼이 눌리지 않은 경우에만 실행
+    // keycode 8 은 delete키를 의미한다. 하이픈을 붙이는 과정에서 만약 밑의 코드를 적용하지 않는다면 지우는 과정에서 계속 하이픈이 생기긱 때문에 꼭 필요한 코드이다.
+    if(event.keyCode != 8) {
+      // @see 숫자와 하이픈(-)기호의 값만 존재하는 경우 실행
+      // 모든 숫자나 하이픈을 공백으로 바꾸면서 밑에 부분이 실행되도록 한다.
+      if(obj.value.replace(/[0-9 \-]/g, "").length == 0) {
+        // @see 하이픈(-)기호를 제거한다.
+        // 숫자를 뻰 나머지를 제거한다.
+        // 위에 if문을 통헤 숫자와 하이픈만 있기 때문에 결국 제거되는 것은 하이픈이다.
+        let number = obj.value.replace(/[^0-9]/g,"");
+        let ymd = "";
+        // @see 문자열의 길이에 따라 Year, Month, Day 앞에 하이픈(-)기호를 삽입한다.
+        if(number.length < 4) {
+          return number;
+        } else if(number.length < 6){
+          ymd += number.substr(0, 4);
+          ymd += "-";
+          ymd += number.substr(4);
+        } else {
+          ymd += number.substr(0, 4);
+          ymd += "-";
+          ymd += number.substr(4, 2);
+          ymd += "-";
+          ymd += number.substr(6);
+        }
+        obj.value = ymd;
+      } else {
+        alert("숫자 이외의 값은 입력하실 수 없습니다.");
+        //@see 숫자와 하이픈(-)기호 이외의 모든 값은 삭제한다.
+        obj.value = obj.value.replace(/[^0-9 ^\-]/g,"");
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+</script>
+
+  </html>
